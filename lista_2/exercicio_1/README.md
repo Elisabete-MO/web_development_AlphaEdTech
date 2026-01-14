@@ -21,7 +21,7 @@ O exercício consiste em:
 `projeto/
 ├── reader.js
 ├── app.js
-└── arquivo.txt` 
+└── file.txt` 
 
 ----------
 
@@ -60,7 +60,7 @@ Arquivo de texto utilizado como exemplo para leitura.
 
 ## ✅ Resultado esperado
 
-O conteúdo do arquivo `arquivo.txt` será exibido no terminal.
+O conteúdo do arquivo `file.txt` será exibido no terminal.
 
 Exemplo:
 
