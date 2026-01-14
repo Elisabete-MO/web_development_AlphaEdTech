@@ -1,0 +1,16 @@
+{
+  "name": "express-esm-project",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Este projeto demonstra a criação de um servidor web em **Node.js com Express**, utilizando **ESM (ECMAScript Modules)**, rotas organizadas em arquivo separado e funções em módulos distintos. O conteúdo exibido pelas rotas também fica em um arquivo próprio, mostrando uma separação clara de responsabilidades.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
