@@ -1,18 +1,26 @@
-# 📦 Product & Order API — RESTful API (Node + Express)
+# 📦 Customer, Product, Order API — RESTful API (Node + Express)
 ## 📌 Sobre o projeto
 
-Este projeto implementa uma **API RESTful para gerenciamento de produtos e pedidos**, desenvolvida com **Node.js e Express**, utilizando **ESM (ECMAScript Modules)** e uma arquitetura modular em camadas.
+Este projeto implementa uma **API RESTful para gerenciamento de clientes, produtos e pedidos**, desenvolvida com **Node.js e Express**, utilizando **ESM (ECMAScript Modules)** e uma arquitetura modular em camadas.
 
 A aplicação segue uma separação clara de responsabilidades:
 * **Routes** → recebem requisições HTTP e definem os endpoints
+* **Controllers** → coordenam o fluxo da requisição, chamando validações e regras de negócio
 * **Service** → contém regras de negócio e manipulação dos dados
-* **Validator** → valida entradas recebidas pelo cliente
+* **Validator** → validam e sanitizam entradas recebidas pelo cliente
 
 ⚠️ **Observação importante:**
-Os dados (produtos e pedidos) são armazenados apenas em memória (arrays em tempo de execução). Isso significa que, ao reiniciar o servidor, todas as informações são perdidas.
+Os dados (clientes, produtos e pedidos) são armazenados apenas em memória (arrays em tempo de execução). Isso significa que, ao reiniciar o servidor, todas as informações são perdidas.
 
 ---
 ## 🧱 Modelos de dados
+### ✅ Cliente (`Customer`)
+Campo	| Tipo	| Descrição
+--- | --- | ---
+`id`	| inteiro	| Identificador único do cliente
+`name` |	string	| Nome do cliente
+`email`	| string	| email do cliente
+
 ### ✅ Produto (`Product`)
 Campo	| Tipo	| Descrição
 --- | --- | ---
@@ -37,30 +45,88 @@ Campo |	Tipo |	Descrição
 ## 📁 Estrutura do projeto
 ```
 product-api/
-├── app.js
-├── routes/
-│   ├── product_routes.js
-│   └── order_routes.js
-├── services/
-│   ├── product_service.js
-│   └── order_service.js
-├── validators/
-│   ├── product_validator.js
-│   └── order_validator.js
-└── public/
-    ├── index.html
-    ├── style.css
-    └── script.js
+└── src/
+    ├── app.js
+    │
+    ├── routes/
+    │   ├── index.js
+    │   ├── product_routes.js
+    │   ├── order_routes.js
+    │   └── customer_routes.js
+    │
+    ├── controllers/
+    │   ├── index.js
+    │   ├── productController.js
+    │   ├── orderController.js
+    │   └── customerController.js
+    │
+    ├── services/
+    │   ├── index.js
+    │   ├── product_service.js
+    │   ├── order_service.js
+    │   └── customer_service.js
+    │
+    ├── validators/
+    │   ├── index.js
+    │   ├── product_validator.js
+    │   ├── order_validator.js
+    │   └── customer_validator.js
+    │
+    └── public/
+        ├── index.html
+        ├── style.css
+        └── script.js
+
 ```
 
 ### Responsabilidades por camada
 Arquivo |	Responsabilidade
 --- | ---
 `app.js`	| Configuração do servidor Express e integração frontend/backend
+`*/index.js` | Centraliza exportações de cada camada e organiza imports 
 `routes/*_routes.js`	| Define endpoints e respostas HTTP
 `services/*_service.js`	| Regras de negócio e operações CRUD
 `validators/*_validator.js`	| Validação dos dados de entrada
 `public/`	| Interface web para consumir a API
+
+
+## 📦 Padrão de organização — Arquivos `index.js`
+
+O projeto utiliza arquivos `index.js` como ponto central de exportação para cada camada (também conhecidos como *barrel files*). Isso evita múltiplos imports diretos de arquivos individuais e melhora a legibilidade do código.
+
+Exemplo:
+
+### ✔️ Routes (`routes/index.js`)
+```js
+import { Router } from "express";
+import orderRoutes from "./orderRoutes.js";
+import productRoutes from "./productRoutes.js";
+
+const router = Router();
+
+router.use("/order", orderRoutes);
+router.use("/product", productRoutes);
+
+export default router;
+```
+### ✔️ Controllers (`controllers/index.js`)
+```js
+export * as orderController from "./orderController.js";
+export * as productController from "./productController.js";
+
+```
+### ✔️ Services (`services/index.js`)
+```js
+export * as orderService from "./orderService.js";
+export * as productService from "./productService.js";
+
+```
+
+### Benefícios desse padrão:
+
+* Imports mais limpos
+* Melhor organização do projeto
+* Facilita futuras refatorações
 
 ---
 ## 🌐 Integração Frontend + Backend
@@ -117,6 +183,63 @@ http://localhost:3000
 ```
 
 ---
+
+
+## 🛡️ Validações de entrada
+
+A API inclui validações para garantir consistência dos dados antes de chegar às regras de negócio. Entre elas:
+
+- Verificação de tipos (`string`, `number`, `array`, etc.)
+- Validação de formato de e-mail com expressão regular
+- Verificação de campos obrigatórios
+- Validação de quantidade positiva em pedidos
+
+Exemplo de validação de e-mail utilizada no projeto:
+
+```js
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+if (typeof email !== "string") {
+  return res.status(400).json({ message: "email deve ser uma string" });
+}
+
+if (!emailRegex.test(email)) {
+  return res.status(400).json({ message: "email inválido" });
+}
+```
+Essas validações ficam concentradas na camada Validator, mantendo rotas mais limpas e organizadas.
+
+---
+## 🔁 Rotas da API — Customers
+➤ **GET /api/customer**
+Retorna todos os clientes.
+```bash
+curl http://localhost:3000/api/customer
+```
+➤ **GET /api/customer/:id**
+Retorna um cliente específico pelo `id`.
+```bash
+curl http://localhost:3000/api/customer/1
+```
+➤ **POST /api/customer**
+Cadastra um novo cliente.
+```bash
+curl -X POST http://localhost:3000/api/customer \
+-H "Content-Type: application/json" \
+-d '{"id":1,"name":"John","email": "john@exemple.com"}'
+```
+➤ **PUT /api/customer/:id**
+Atualiza um cliente existente.
+```bash
+curl -X PUT http://localhost:3000/api/customer/1 \
+-H "Content-Type: application/json" \
+-d '{"name":"John","email": "john@exemple.com"}'
+```
+➤ **DELETE /api/customer/:id**
+Remove um cliente pelo `id`.
+```bash
+curl -X DELETE http://localhost:3000/api/customer/1
+```
 
 ## 🔁 Rotas da API — Products
 ➤ **GET /api/product**
@@ -236,6 +359,7 @@ Este projeto consolida:
 * Relacionar pedidos a clientes
 * Persistir dados em **arquivo JSON**
 * Integrar com banco de dados (SQLite, PostgreSQL ou MongoDB)
-* Adicionar camada **Controller (padrão MVC)**
-* Implementar validação com **Zod ou Joi**
+* *Evoluir para um padrão mais próximo de MVC (separando melhor Controller e Service em responsabilidades claras)*
+* Padronizar **respostas de erro** em um **middleware** global  
+* Centralizar validações com **Zod** ou **Joi**
 * Criar testes automatizados
