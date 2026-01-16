@@ -1,6 +1,7 @@
 # Exercícios de Node.js
 
 Este repositório reúne exercícios práticos desenvolvidos durante meus estudos em **Node.js**, com foco na consolidação de fundamentos da plataforma e boas práticas de organização de código.
+clear
 
 Os exercícios estão organizados em listas, cada uma contendo desafios progressivos.
 
