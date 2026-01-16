@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Product & Order API - Demo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <h1>📦 Product & Order API Demo</h1>
+  <p class="subtitle">
+    Interface simples para testar sua API REST (Products e Orders)
+  </p>
+
+  <div class="container">
+
+    <!-- ===== PRODUTOS ===== -->
+    <section class="card">
+      <h2>🛍️ Produtos</h2>
+
+      <button id="btnListProducts">Listar Produtos</button>
+
+      <div class="form">
+        <h3>Adicionar Produto</h3>
+        <input id="prodId" type="number" placeholder="ID (ex: 1)">
+        <input id="prodName" type="text" placeholder="Nome (ex: Notebook)">
+        <input id="prodValue" type="number" step="0.01" placeholder="Valor (ex: 3500.00)">
+        <button id="btnAddProduct">Adicionar Produto</button>
+      </div>
+
+      <h3>Resultado</h3>
+      <pre id="productsResult"></pre>
+    </section>
+
+    <!-- ===== PEDIDOS ===== -->
+    <section class="card">
+      <h2>🛒 Pedidos</h2>
+
+      <button id="btnListOrders">Listar Pedidos</button>
+
+      <div class="form">
+        <h3>Criar Pedido</h3>
+        <input id="orderId" type="number" placeholder="ID do pedido (ex: 100)">
+
+        <textarea id="orderItems" rows="5" placeholder='Cole aqui os items em JSON, por exemplo:
+[
+  { "id": 1, "quantity": 2 },
+  { "id": 2, "quantity": 1 }
+]'></textarea>
+
+        <button id="btnAddOrder">Criar Pedido</button>
+      </div>
+
+      <h3>Resultado</h3>
+      <pre id="ordersResult"></pre>
+    </section>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
