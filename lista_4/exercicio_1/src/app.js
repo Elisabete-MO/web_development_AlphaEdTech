@@ -3,12 +3,15 @@ import routes from "./routes/index.js";
 import helmet from "helmet";
 import cors from "cors";
 import { errorHandler } from "./middlewares/errorHandler.js";
+import loggerMiddleware from "./middlewares/loggerMiddleware.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Recebe JSON
 app.use(express.json());
+
+app.use(loggerMiddleware);
 
 // Segurança com Helmet
 app.use(
