@@ -2,6 +2,7 @@ import express from "express";
 import routes from "./routes/index.js";
 import helmet from "helmet";
 import cors from "cors";
+import { setupSwagger } from "./swagger/setupSwagger.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import loggerMiddleware from "./middlewares/loggerMiddleware.js";
 
@@ -48,6 +49,9 @@ app.use(express.static("public"));
 
 // TODAS as rotas da API entram aqui
 app.use("/api", routes);
+
+// Configura o Swagger
+setupSwagger(app);
 
 // Middleware de erros deve vir por último
 app.use(errorHandler);

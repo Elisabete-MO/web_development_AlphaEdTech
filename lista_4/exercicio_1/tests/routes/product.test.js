@@ -105,7 +105,7 @@ describe("POST /api/product/", () => {
     expect(res.body).toHaveProperty("message");
   });
 
-  it("deve retornar 400 quando um campo tiver tipo errado", async () => {
+  it("deve retornar 400 quando um campo for inválido", async () => {
     const invalidProduct = { name: "Teclado", value: "duzentos e cinquenta" };
 
     const res = await request(app)
