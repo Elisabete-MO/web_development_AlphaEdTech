@@ -1,10 +1,11 @@
 import express from "express";
-import routes from "./routes/index.js";
 import helmet from "helmet";
 import cors from "cors";
+import cookieParser from "cookie-parser";
+import routes from "./routes/index.js";
+import loggerMiddleware from "./middlewares/loggerMiddleware.js";
 import { setupSwagger } from "./swagger/setupSwagger.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
-import loggerMiddleware from "./middlewares/loggerMiddleware.js";
 
 const app = express();
 
@@ -14,6 +15,9 @@ app.use(express.json());
 if (process.env.NODE_ENV !== "test") {
   app.use(loggerMiddleware);
 }
+
+// Parse cookies
+app.use(cookieParser());
 
 // Segurança com Helmet
 app.use(
@@ -40,7 +44,7 @@ app.use(
     origin: "http://localhost:3000",     // só a origem
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
-    optionsSuccessStatus: 200
+    credentials: true                    // permite cookies
   })
 );
 

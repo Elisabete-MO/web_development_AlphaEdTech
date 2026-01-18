@@ -1,12 +1,16 @@
 import { Router } from "express";
+import { authMiddleware } from "../middlewares/authMiddleware.js";
 import customerRoutes from "./customerRoutes.js";
 import orderRoutes from "./orderRoutes.js";
 import productRoutes from "./productRoutes.js";
+import authRoutes from "./authRoutes.js";
 
 const router = Router();
 
-router.use("/customer", customerRoutes);
-router.use("/order", orderRoutes);
-router.use("/product", productRoutes);
+router.use("/login", authRoutes);
+
+router.use("/customer", authMiddleware, customerRoutes);
+router.use("/order", authMiddleware, orderRoutes);
+router.use("/product", authMiddleware, productRoutes);
 
 export default router;
