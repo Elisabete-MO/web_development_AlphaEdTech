@@ -1,0 +1,16 @@
+{
+  "name": "express-esm-project",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Este projeto implementa uma **API RESTful para cadastro e gerenciamento de produtos**, desenvolvida com **Node.js e Express** utilizando **ESM (ECMAScript Modules)** e uma arquitetura em camadas:",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}

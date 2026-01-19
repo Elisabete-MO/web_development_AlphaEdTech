@@ -1,0 +1,19 @@
+{
+  "name": "express-esm-project",
+  "version": "5.0.0",
+  "type": "module",
+  "description": "Este projeto implementa uma **API RESTful para cadastro e gerenciamento de pedidos**, desenvolvida com **Node.js e Express** utilizando **ESM (ECMAScript Modules)** e uma arquitetura em camadas.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node ./src/app.js"
+  },
+  "keywords": [],
+  "author": "Elisabete Martins de Oliveira",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.2.1",
+    "helmet": "^8.1.0",
+    "joi": "^18.0.2"
+  }
+}
