@@ -27,10 +27,15 @@ X = float(input("Valor X (preço mínimo): "))
 Y = int(input("Valor Y (quantidade mínima): "))
 
 # 1) valor total por venda
-valores_totais = [preco * qtd for _, preco, qtd in dados_vendas]
+valores_totais = [
+    preco * qtd 
+    for _, preco, qtd in dados_vendas]
 
 # 2) produtos com preço acima de X
-produtos_caros = [prod for prod, preco, _ in dados_vendas if preco > X]
+produtos_caros = [
+    prod 
+    for prod, preco, _ in dados_vendas 
+    if preco > X]
 
 # 3) vendas com quantidade superior a Y
 vendas_grandes = [
@@ -51,10 +56,10 @@ print("\nValores totais por venda:")
 for v in valores_totais:
     print(f"R$ {v:.2f}")
 
-print("\nProdutos com preço acima de X:")
+print("\nProdutos com preço acima de {X}:")
 for p in produtos_caros:
     print(p)
 
-print("\nVendas com quantidade acima de Y:")
+print("\nVendas com quantidade acima de {Y}:")
 for prod, total in vendas_grandes:
     print(f"{prod} → R$ {total:.2f}")

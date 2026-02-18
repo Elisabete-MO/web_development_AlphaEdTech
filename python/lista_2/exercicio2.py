@@ -8,7 +8,7 @@
 # Consoantes: 40.58%
 # Espacos: 15.94%
 # Pontuacoes: 2.90%
-# Sugestão: use um Dict para armazenar a contagem de cada caractere. Depois itere pelas vogais “aeiou” para somar, depois pelas consoantes “bcdf….z”, etc.
+# Sugestão: use um Dict para armazenar a contagem de cada caractere. Depois iterepelas vogais “aeiou” para somar, depois pelas consoantes “bcdf….z”, etc.
 
 frase = input("Digite uma frase: ")
 

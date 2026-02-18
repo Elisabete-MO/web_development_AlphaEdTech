@@ -43,6 +43,8 @@ Significa:
 
 Em Python isso é:
 ```
+A < B
+```
 
 Isso verifica subconjunto **próprio**.
 
@@ -52,18 +54,22 @@ Isso verifica subconjunto **próprio**.
 Matemática:
 
 ```
-B contém A.
+B ⊇ A
 ```
+
+B contém A.
 
 Python:
 
+```
+B >= A
 ```
 
 ### 🎯 Resumo rápido
 
 | Matemática | Python | Significado                 |
 | ---------- | ------ | --------------------------- |
-| A ⊆ B      | A <= B | A está contido em B         |
-| A ⊂ B      | A < B  | A está estritamente contido |
-| B ⊇ A      | B >= A | B contém A                  |
-| B ⊃ A      | B > A  | B contém estritamente       |
+| A ⊆ B      | `A <= B` | A está contido em B         |
+| A ⊂ B      | `A < B`  | A está estritamente contido |
+| B ⊇ A      | `B >= A` | B contém A                  |
+| B ⊃ A      | `B > A`  | B contém estritamente       |

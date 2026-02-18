@@ -17,5 +17,5 @@ for i in range(len(nome) - 1):
 # for parte in nome[:-1]:
 #     iniciais += parte[0].upper() + ". "
 
-resultado = f"{ultimo_sobrenome.capitalize()}, {iniciais.strip()}"
+resultado = f"{ultimo_sobrenome.upper()}, {iniciais}"
 print(resultado)
