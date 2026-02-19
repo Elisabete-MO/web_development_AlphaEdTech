@@ -5,23 +5,23 @@
 # somar_numeros(5, 10, 50, 40) # retorna 50 
 # somar_numeros() # retorna None 
 
-def somar_numeros(*numeros):
-  if not numeros:  # se não vier nenhum argumento
+def maior_numero(*numeros):
+  if not numeros:
     return None
   return max(numeros)
 
-def testar_somar_numeros():
-  assert somar_numeros(10) == 10
-  assert somar_numeros(10, 30, 20) == 30
-  assert somar_numeros(5, 10, 50, 40) == 50
-  assert somar_numeros() == None
+def testar_maior_numero():
+  assert maior_numero(10) == 10
+  assert maior_numero(10, 30, 20) == 30
+  assert maior_numero(5, 10, 50, 40) == 50
+  assert maior_numero() == None
   print("Todos os testes passaram com sucesso!") 
 
 # Testes rápidos
-print(f"Resultado soma(10): {somar_numeros(10)}")
-print(f"Resultado soma(10, 30, 20): {somar_numeros(10, 30, 20)}")
-print(f"Resultado soma(5, 10, 50, 40): {somar_numeros(5, 10, 50, 40)}")
-print(f"Resultado soma(): {somar_numeros()}")
+print(f"Resultado maior_numero(10): {maior_numero(10)}")
+print(f"Resultado maior_numero(10, 30, 20): {maior_numero(10, 30, 20)}")
+print(f"Resultado maior_numero(5, 10, 50, 40): {maior_numero(5, 10, 50, 40)}")
+print(f"Resultado maior_numero(): {maior_numero()}")
 
 if __name__ == "__main__":
-  testar_somar_numeros()
+  testar_maior_numero()
