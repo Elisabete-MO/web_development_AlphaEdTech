@@ -20,6 +20,8 @@
 #   * Remove 2 "Espadas". 
 #   * Lista o inventário final.
 
+lista = []
+
 def adicionar_item(inventario, item, quantidade=1):
     if item in inventario:
         inventario[item] += quantidade
