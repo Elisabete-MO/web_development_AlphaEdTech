@@ -14,65 +14,93 @@ class ContaBancaria:
         Inicializa a conta com titular e saldo inicial (padrão = 0.0).
         """
         self.titular = titular
-        self.saldo = saldo
+        self.saldo = 0.0
+        self.set_saldo(saldo)
 
     def get_saldo(self):
         """
         Retorna o saldo atual da conta.
         """
-        return self.saldo
+        return self.__saldo
 
     def set_saldo(self, valor):
         """
         Define o saldo da conta.
         """
-        if valor >= 0:
-            self.saldo = valor
-        else:
-            print(f"Saldo inválido. Não é possível definir um saldo negativo.")
+        if valor < 0:
+            raise ValueError(f"Saldo inválido. Não é possível definir um saldo negativo: R$ {valor:.2f}")
+        self.__saldo = valor
 
     def depositar(self, valor):
         """
         Realiza um depósito na conta.
         """
-        if valor > 0:
-            self.set_saldo(self.get_saldo() + valor)
-            print(f"Depósito de R${valor:.2f} realizado com sucesso.")
-        else:
-            print(f"Depósito no valor de R${valor:.2f} não realizado. Valor de depósito inválido.")
+        if valor <= 0:
+            raise ValueError(f"Depósito no valor de R${valor:.2f} não realizado. Valor de depósito inválido.")
+        self.__saldo += valor
 
     def sacar(self, valor):
         """
         Realiza um saque se houver saldo suficiente.
         """
         if valor <= 0:
-            print("Não foi possível realizar o saque. Valor de saque inválido.")
-        elif valor <= self.get_saldo():
-            self.set_saldo(self.get_saldo() - valor)
-            print(f"Saque de R${valor:.2f} realizado com sucesso.")
-        else:
-            print(f"Não foi possível realizar o saque no valor de R${valor:.2f}. Saldo insuficiente: R${self.get_saldo():.2f}")
+            raise ValueError(f"Não foi possível realizar o saque no valor de R${valor:.2f}. Valor de saque inválido.")
+        elif valor > self.__saldo:
+            raise ValueError(f"Não foi possível realizar o saque no valor de R${valor:.2f}. Saldo insuficiente: R$ {self.__saldo}")
+        self.__saldo -= valor
+
 
     def exibir_saldo(self):
         """
         Exibe o saldo atual da conta.
         """
-        print(f"Titular: {self.titular} | Saldo: R${self.get_saldo():.2f}")
+        print(f"Titular: {self.titular} | Saldo: R${self.__saldo:.2f}")
         print("=" * 40)
 
 
-# Criando duas contas
-conta1 = ContaBancaria("Elisabeth", 1000)
-conta2 = ContaBancaria("Carlos", 500)
+conta1 = ContaBancaria("João", 1000)
+conta2 = ContaBancaria("Maria", 500)
 
-# Testando operações
-conta1.exibir_saldo()
-conta1.depositar(200)
-conta1.sacar(1500)  # tentativa de saque maior que saldo
-conta1.sacar(300)
-conta1.exibir_saldo()
+def testar_operacoes(conta):
+    print(f"\n--- Testando conta de {conta.titular} ---")
+    conta.exibir_saldo()
 
+    try:
+        conta.depositar(200)
+        print(f"Depósito de 200 realizado com sucesso.")
+    except ValueError as e:
+        print("Erro no depósito:", e)
+
+    try:
+        conta.sacar(1500)
+        print("Saque de 1500 realizado com sucesso.")
+    except ValueError as e:
+        print("Erro no saque:", e)
+
+    try:
+        conta.sacar(300)
+        print("Saque de 300 realizado com sucesso.")
+    except ValueError as e:
+        print("Erro no saque:", e)
+
+    conta.exibir_saldo()
+
+
+testar_operacoes(conta1)
+
+print("\n--- Testando segunda conta ---")
 conta2.exibir_saldo()
-conta2.depositar(-50)  # valor inválido
-conta2.sacar(200)
+
+try:
+    conta2.depositar(-50)
+    print("Depósito de -50 realizado com sucesso.")
+except ValueError as e:
+    print("Erro no depósito:", e)
+
+try:
+    conta2.sacar(200)
+    print("Saque de 200 realizado com sucesso.")
+except ValueError as e:
+    print("Erro no saque:", e)
+
 conta2.exibir_saldo()
