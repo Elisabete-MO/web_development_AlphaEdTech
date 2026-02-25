@@ -1,14 +1,8 @@
 [
-  {
-    "titulo": "Clean Code",
-    "autor": "Robert C. Martin",
-    "isbn": "9780132350884",
-    "emprestado": true
-  },
-  {
-    "titulo": "Python Fluente",
-    "autor": "Luciano Ramalho",
-    "isbn": "9781492056355",
-    "emprestado": false
-  }
+    {
+        "titulo": "Teste",
+        "autor": "Autor",
+        "isbn": "123",
+        "disponivel": true
+    }
 ]
