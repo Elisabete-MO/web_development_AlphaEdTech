@@ -1,0 +1,12 @@
+{
+  "appTitle": "Mi App",
+  "home": "Inicio",
+  "login": "Iniciar sesión",
+  "logout": "Salir",
+  "profile": "Perfil",
+  "settings": "Configuración",
+  "welcome": "Bienvenido",
+  "search": "Buscar",
+  "language": "Idioma",
+  "error": "Algo salió mal"
+}

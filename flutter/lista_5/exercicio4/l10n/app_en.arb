@@ -1,0 +1,12 @@
+{
+  "appTitle": "My App",
+  "home": "Home",
+  "login": "Login",
+  "logout": "Logout",
+  "profile": "Profile",
+  "settings": "Settings",
+  "welcome": "Welcome",
+  "search": "Search",
+  "language": "Language",
+  "error": "Something went wrong"
+}
