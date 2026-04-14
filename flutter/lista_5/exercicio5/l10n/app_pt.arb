@@ -1,0 +1,12 @@
+{
+  "appTitle": "Meu App",
+  "home": "Início",
+  "login": "Entrar",
+  "logout": "Sair",
+  "profile": "Perfil",
+  "settings": "Configurações",
+  "welcome": "Bem-vindo",
+  "search": "Buscar",
+  "language": "Idioma",
+  "error": "Algo deu errado"
+}
