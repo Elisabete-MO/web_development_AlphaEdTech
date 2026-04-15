@@ -1,0 +1,11 @@
+Resposta: Investigação Avançada (Requisito Exercício 7)
+1. Notificações-rich com Imagens/Botões: Para exibir imagens grandes usa-se BigPictureStyleInformation. O processo envolve fazer o download do path/URL da imagem recebida no object data da notificação push, salvá-la no diretório temporário do SO e usar a classe FilePathAndroidBitmap. Para botões, passamos a classe AndroidNotificationAction na lista de actions ao invocar o método .show de local notification. Adicionar suporte a lidar com tais botões via background requer o registro de um BroadcastReceiver isolado e um handler em top-level no arquivo dart com a anotação @pragma('vm:entry-point').
+
+2. Fluxo clique de notificação (App Fechado - Terminated): Ao clicar na notificação que foi enviada enquanto o aplicativo estava fechado, o Android levanta a Activity primária através das intents de Push e reinicia a app do zero (runApp()). O Firebase SDK então capta a interrupção através de FirebaseMessaging.instance.getInitialMessage(). O método extrairá a mensagem RemoteMessage, que detém o data payload (por exemplo {'route': '/promotions'}). O desenvolvedor lê isso após o Roteador se iniciar e comanda uma ida imperativa usando GoRouter.go().
+
+3. Fluxo completo (Recebimento até a Navegação):
+
+Foreground (App Aberto Ativamente): O Push cai silenciosamente no Stream FirebaseMessaging.onMessage. Lemos o seu conteúdo, instanciamos a lib flutter_local_notifications para desenhar ativamente um popup na tela do usuário. Se o usuário tocar neste popup customizado, o calback onDidReceiveNotificationResponse do Local Notification Plugin repassa a String com dados da tela e diz para o app navegar na View correta.
+Background / Terminated: O Android manipula a bandeja de notificações por si. Quando o usuário clica com App no Background normal, a notificação invoca o App do pause para active lançando no stream onMessageOpenedApp. O Roteador é avisado via Listener e pula de tela. No modo Terminated, usamos o fluxo descrito na etapa 2 getInitialMessage().
+User Review Required
+Permissões Android 13+: O AndroidManifest.xml precisará de permissões específicas de vibração e Push (sendo POST_NOTIFICATIONS a principal no Android mais moderno). Se tiver problemas de pop-ups não aparecendo, essa permissão deve ser concedida e adicionada ao manifesto explicitamente.
