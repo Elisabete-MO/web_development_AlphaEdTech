@@ -1,0 +1,50 @@
+services:
+  api-dev:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgres://postgres:minhasenha@db:5432/mydb
+      - NODE_ENV=development
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      db:
+        condition: service_healthy
+    profiles:
+      - dev
+    command: npm run dev
+
+  api-prod:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgres://postgres:minhasenha@db:5432/mydb
+      - NODE_ENV=production
+    depends_on:
+      db:
+        condition: service_healthy
+    profiles:
+      - prod
+    command: npm start
+  db:
+    image: postgres:16-alpine
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_PASSWORD=minhasenha
+      - POSTGRES_DB=mydb
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  pgdata:
