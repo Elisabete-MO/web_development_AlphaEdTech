@@ -1,3 +1,6 @@
+# Execute com bind mount:
+# docker run -p 3000:3000 -v $(pwd):/app -v /app/node_modules questao5-api npx nodemon server.js
+
 # === STAGE 1: BUILD ===
 FROM node:22-alpine AS builder
 WORKDIR /app
