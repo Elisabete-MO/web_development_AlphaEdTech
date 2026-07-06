@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:16-alpine
+    deploy:
+      replicas: 1
+    environment:
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_pass_q6
+    secrets:
+      - db_pass_q6
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  api:
+    image: nginx:alpine
+    ports:
+      - "8090:80"
+    deploy:
+      replicas: 2
+    depends_on:
+      - db
+
+secrets:
+  db_pass_q6:
+    external: true
+
+volumes:
+  pgdata:
