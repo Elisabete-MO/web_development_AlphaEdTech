@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  api:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 5s
+        failure_action: pause
+      resources:
+        limits:
+          memory: 128M
