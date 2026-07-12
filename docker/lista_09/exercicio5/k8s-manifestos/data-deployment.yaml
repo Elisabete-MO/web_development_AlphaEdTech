@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: data-app
+  template:
+    metadata:
+      labels:
+        app: data-app
+    spec:
+      containers:
+        - name: data-container
+          image: busybox:1.36
+          imagePullPolicy: IfNotPresent
+          command:
+            - sleep
+            - "3600"
+          volumeMounts:
+            - name: data-volume
+              mountPath: /data
+      volumes:
+        - name: data-volume
+          persistentVolumeClaim:
+            claimName: data-pvc
