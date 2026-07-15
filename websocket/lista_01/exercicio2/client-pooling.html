@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Polling Demo</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 600px;
+            margin: 2em auto;
+        }
+
+        #messages {
+            border: 1px solid #ccc;
+            padding: 1em;
+            min-height: 200px;
+            margin: 1em 0;
+        }
+
+        .msg {
+            padding: 0.5em;
+            margin: 0.3em 0;
+            background: #f0f0f0;
+            border-radius: 4px;
+        }
+
+        .stats {
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Polling Demo</h1>
+    <div id="messages"></div>
+    <div class="stats">
+        <p>Requisições: <span id="totalReqs">0</span></p>
+        <p>Respostas vazias: <span id="emptyReqs">0</span></p>
+        <p>Eficiência: <span id="eficiencia">0</span>%</p>
+    </div>
+    <script>
+        let since = new Date(0).toISOString();
+        let totalRequests = 0;
+        let emptyResponses = 0;
+        async function fetchMessages() {
+            totalRequests++;
+            document.getElementById('totalReqs').textContent = totalRequests;
+            try {
+                const response = await fetch(`http://localhost:3000/messages?since=${since}`);
+                const data = await response.json();
+                if (data.length === 0) {
+                    emptyResponses++;
+                    document.getElementById('emptyReqs').textContent = emptyResponses;
+                } else {
+                    since = new Date().toISOString();
+                    const container = document.getElementById('messages');
+                    data.forEach(msg => {
+                        const div = document.createElement('div');
+                        div.className = 'msg';
+                        div.textContent = `[${new Date(msg.timestamp).toLocaleTimeString()}]
+${msg.text}`;
+                        container.appendChild(div);
+                    });
+                }
+                const eficiencia = totalRequests > 0
+                    ? ((1 - emptyResponses / totalRequests) * 100).toFixed(1)
+                    : 0;
+                document.getElementById('eficiencia').textContent = eficiencia;
+            } catch (err) {
+                console.error('Erro ao buscar mensagens:', err);
+            }
+        }
+        setInterval(fetchMessages, 2000);
+    </script>
+</body>
+
+</html>
