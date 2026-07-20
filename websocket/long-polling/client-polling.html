@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Long-Polling Demo</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 600px;
+            margin: 2em auto;
+        }
+
+        #messages {
+            border: 1px solid #ccc;
+            padding: 1em;
+            min-height: 200px;
+            margin: 1em 0;
+        }
+
+        .msg {
+            padding: 0.5em;
+            margin: 0.3em 0;
+            background: #e8f5e9;
+            border-radius: 4px;
+        }
+
+        .stats {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .input-area {
+            margin: 1em 0;
+        }
+
+        input {
+            padding: 0.5em;
+            width: 70%;
+        }
+
+        button {
+            padding: 0.5em 1em;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Long-Polling Demo</h1>
+    <div class="input-area">
+        <input type="text" id="msgInput" placeholder="Digite sua mensagem...">
+        <button onclick="sendMessage()">Enviar</button>
+    </div>
+    <div id="messages"></div>
+    <div class="stats">
+        <p>Requisições: <span id="totalReqs">0</span></p>
+        <p>Status: <span id="status">Conectando...</span></p>
+    </div>
+    <script>
+        let since = new Date(0).toISOString();
+        let totalRequests = 0;
+        async function startLongPoll() {
+            try {
+                document.getElementById('status').textContent = 'Aguardando mensagens...';
+                totalRequests++;
+                document.getElementById('totalReqs').textContent = totalRequests;
+                const response = await
+                    fetch(`http://localhost:3000/messages/long-poll?since=${since}`);
+                const data = await response.json();
+                if (data.length > 0) {
+                    since = new Date().toISOString();
+                    const container = document.getElementById('messages');
+                    data.forEach(msg => {
+                        const div = document.createElement('div');
+                        div.className = 'msg';
+                        div.textContent = `[${new Date(msg.timestamp).toLocaleTimeString()}]
+${msg.text}`;
+                        container.appendChild(div);
+                    });
+                }
+                document.getElementById('status').textContent = 'Reconectando...';
+            } catch (err) {
+                console.error('Erro:', err);
+                document.getElementById('status').textContent = 'Erro. Reconectando em 3s...';
+                await new Promise(r => setTimeout(r, 3000));
+            }
+            startLongPoll();
+        }
+        async function sendMessage() {
+            const input = document.getElementById('msgInput');
+            const text = input.value.trim();
+            if (!text) return;
+            try {
+                const response = await fetch('http://localhost:3000/messages', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text }),
+                });
+                const data = await response.json();
+                input.value = '';
+                console.log('Mensagem enviada:', data);
+            } catch (err) {
+                console.error('Erro ao enviar:', err);
+            }
+        }
+        startLongPoll();
+        document.getElementById('msgInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+    </script>
+</body>
+
+</html>
