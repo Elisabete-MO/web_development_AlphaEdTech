@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Chat Robusto com reconexão automática</title>
+</head>
+
+<body>
+    <div id="chat" style="border:1px solid #ccc; height:300px; overflow-y:auto;
+padding:10px;"></div>
+    <input type="text" id="msg" placeholder="Mensagem" style="width:300px;">
+    <button id="btn">Enviar</button>
+    <script>
+        const chat = document.getElementById('chat');
+        const input = document.getElementById('msg');
+        let ws = null;
+        let tentativa = 0;
+        function conectar() {
+            ws = new WebSocket('ws://localhost:8080');
+            ws.onopen = () => {
+                chat.innerHTML += `<p style="color:green;">✅ Conectado</p>`;
+                tentativa = 0;
+            };
+            ws.onmessage = (e) => {
+                chat.innerHTML += `<p>${e.data}</p>`;
+                chat.scrollTop = chat.scrollHeight;
+            };
+            ws.onclose = (e) => {
+                chat.innerHTML += `<p style="color:red;">❌ Desconectado (código:
+${e.code}). Reconectando...</p>`;
+                const delay = Math.min(1000 * Math.pow(2, tentativa), 30000);
+                tentativa++;
+                setTimeout(conectar, delay);
+            };
+            ws.onerror = () => { };
+        }
+        conectar();
+        document.getElementById('btn').onclick = () => {
+            const t = input.value.trim();
+            if (t && ws && ws.readyState === WebSocket.OPEN) {
+                ws.send(t);
+                input.value = '';
+            }
+        };
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') document.getElementById('btn').click();
+        });
+    </script>
+</body>
+
+</html>

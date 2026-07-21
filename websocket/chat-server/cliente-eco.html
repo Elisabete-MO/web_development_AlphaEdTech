@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Teste WebSocket</title>
+</head>
+
+<body>
+    <h1>Teste WebSocket</h1>
+    <input type="text" id="mensagem" placeholder="Digite uma mensagem">
+    <button id="enviar">Enviar</button>
+    <div id="log"></div>
+    <script>
+        const ws = new WebSocket('ws://localhost:8080');
+        const log = document.getElementById('log');
+        ws.onopen = () => {
+            log.innerHTML += '<p>✅ Conectado ao servidor</p>';
+        };
+        ws.onmessage = (event) => {
+            log.innerHTML += `<p>📩 Eco: ${event.data}</p>`;
+        };
+        ws.onclose = () => {
+            log.innerHTML += '<p>❌ Desconectado</p>';
+        };
+        document.getElementById('enviar').onclick = () => {
+            const msg = document.getElementById('mensagem').value;
+            ws.send(msg);
+            log.innerHTML += `<p>📤 Enviado: ${msg}</p>`;
+        };
+    </script>
+</body>
+
+</html>
