@@ -1,0 +1,5 @@
+Olá, mundo!
+Esta é a linha dois.
+Pipeline é legal.
+Node.js Streams são poderosos.
+Fim do arquivo.
