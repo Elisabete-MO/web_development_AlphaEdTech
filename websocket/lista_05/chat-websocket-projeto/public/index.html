@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Conversa ao Vivo</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="chat-shell">
+    <header class="chat-header">
+      <div>
+        <p class="eyebrow">WEBSOCKET CHAT</p>
+        <h1>Conversa ao Vivo</h1>
+        <p>Mensagens instantâneas, simples e sem recarregar a página.</p>
+      </div>
+      <div class="status" id="status" aria-live="polite">
+        <span class="status-dot"></span>
+        <span id="status-text">Conectando...</span>
+      </div>
+    </header>
+
+    <section class="messages" id="messages" aria-live="polite" aria-label="Mensagens do chat">
+      <div class="empty-state" id="empty-state">
+        <div class="bubble-icon">💬</div>
+        <strong>Nenhuma mensagem ainda</strong>
+        <span>Abra outra aba ou navegador para começar a conversar.</span>
+      </div>
+    </section>
+
+    <form class="composer" id="message-form">
+      <label class="sr-only" for="message-input">Digite sua mensagem</label>
+      <input
+        id="message-input"
+        type="text"
+        placeholder="Digite uma mensagem..."
+        maxlength="300"
+        autocomplete="off"
+        required
+      />
+      <button type="submit" id="send-button" disabled>
+        <span>Enviar</span>
+        <span aria-hidden="true">➤</span>
+      </button>
+    </form>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

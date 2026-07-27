@@ -1,0 +1,15 @@
+{
+  "name": "chat-websocket-tempo-real",
+  "version": "1.0.0",
+  "description": "Chat em tempo real com WebSocket nativo no front-end e biblioteca ws no back-end.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "unique-names-generator": "^4.7.1",
+    "ws": "^8.18.3"
+  }
+}
