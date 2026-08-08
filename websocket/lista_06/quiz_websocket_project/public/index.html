@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz em Tempo Real</title>
+  <meta name="description" content="Aplicação de quiz colaborativo em tempo real usando WebSockets">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="logo-container">
+        <div class="logo-icon">⚡</div>
+        <h1 class="app-title">Quiz em Tempo Real</h1>
+      </div>
+      <div class="status-badge-container">
+        <div id="connection-status" class="status-badge disconnected">
+          <span class="status-dot"></span>
+          <span id="status-text">Desconectado</span>
+        </div>
+        <div id="user-badge" class="user-badge hidden">
+          <span class="user-icon">👤</span>
+          <span id="user-display-name"></span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Step 1: Join Section -->
+      <section id="join-section" class="card join-card">
+        <div class="card-header">
+          <h2>Bem-vindo ao Quiz!</h2>
+          <p>Digite seu nome de usuário para participar do quiz colaborativo.</p>
+        </div>
+        <form id="join-form" class="join-form">
+          <div class="input-group">
+            <label for="username-input">Seu Username</label>
+            <input 
+              type="text" 
+              id="username-input" 
+              placeholder="Ex: Maria" 
+              maxlength="30" 
+              autocomplete="off" 
+              required
+            >
+            <span class="input-hint">Até 30 caracteres</span>
+          </div>
+          <div id="join-error" class="error-message hidden" id="join-error-text"></div>
+          <button type="submit" id="join-btn" class="btn btn-primary btn-block">
+            <span>Entrar no Quiz</span>
+            <span class="btn-icon">🚀</span>
+          </button>
+        </form>
+      </section>
+
+      <!-- Step 2: Quiz Section (Hidden until join) -->
+      <section id="quiz-section" class="quiz-section hidden">
+        <!-- Question Creation Card -->
+        <div class="card create-card">
+          <div class="card-header">
+            <h2>Nova Pergunta</h2>
+            <p>Faça uma pergunta de "Sim" ou "Não" para a comunidade.</p>
+          </div>
+          <form id="question-form" class="question-form">
+            <div class="input-group">
+              <textarea 
+                id="question-input" 
+                placeholder="Ex: Você prefere JavaScript em relação ao TypeScript?" 
+                maxlength="300" 
+                rows="3"
+                required
+              ></textarea>
+              <div class="textarea-footer">
+                <span id="char-counter" class="char-counter">0 / 300</span>
+              </div>
+            </div>
+            <button type="submit" id="create-question-btn" class="btn btn-secondary">
+              <span>Publicar Pergunta</span>
+              <span class="btn-icon">✨</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Questions Feed -->
+        <div class="feed-section">
+          <div class="feed-header">
+            <h2>Perguntas da Comunidade</h2>
+            <span id="question-count-badge" class="count-badge">0</span>
+          </div>
+
+          <div id="empty-state" class="empty-state">
+            <div class="empty-icon">❓</div>
+            <h3>Nenhuma pergunta ainda</h3>
+            <p>Seja o primeiro a publicar uma pergunta acima!</p>
+          </div>
+
+          <div id="questions-list" class="questions-list"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
